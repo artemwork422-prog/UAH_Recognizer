@@ -8,7 +8,7 @@
 // Мінімальне использование памяти - потокове передавання JPEG
 class StreamHandler {
 private:
-    static const uint16_t STREAM_CHUNK_SIZE = 4096;  // 4KB буферів для потоку
+    static const uint16_t STREAM_CHUNK_SIZE = 2048;  // 2KB chunks (reduced from 4KB)
     static const uint16_t MAX_FRAME_SIZE = 65536;    // Максимальний розмір кадру
     
 public:

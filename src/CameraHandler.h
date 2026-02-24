@@ -57,8 +57,8 @@ bool initCamera() {
     config.pin_pwdn = PWDN_GPIO_NUM;
     config.pin_reset = RESET_GPIO_NUM;
     
-    // Clock frequency: 20MHz for OV2640
-    config.xclk_freq_hz = 20000000;
+    // Clock frequency: Reduced to 10MHz to prevent VSYNC overflow
+    config.xclk_freq_hz = 10000000;  // 10MHz instead of 20MHz
     
     // Frame format - GRAYSCALE for AI inference
     config.pixel_format = PIXFORMAT_GRAYSCALE;
@@ -66,11 +66,14 @@ bool initCamera() {
     // Frame size - 96x96 for Edge Impulse model
     config.frame_size = FRAMESIZE_96X96;
     
+    // JPEG quality for streaming (0-63, lower = faster)
+    config.jpeg_quality = 15;  // Reduced quality for faster transfer
+    
     // Frame buffer settings
     config.fb_count = 1;                    // Single buffer
     config.fb_location = CAMERA_FB_IN_PSRAM; // Use PSRAM if available
     
-    // Optional: Gain mode settings
+    // Grab mode settings
     config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
     
     Serial.println("[CAMERA] Initializing camera with GPIO configuration...");

@@ -117,15 +117,20 @@ esp_err_t stream_handler(httpd_req_t *req) {
         // Надіслання JPEG даних по чанках (економія RAM)
         size_t offset = 0;
         esp_err_t error_code = ESP_OK;
+        const size_t CHUNK_SIZE = 2048;  // Reduced chunk size to prevent socket errors
         
         while (offset < fb->len && error_code == ESP_OK) {
-            size_t chunk_len = (fb->len - offset > 4096) ? 4096 : (fb->len - offset);
+            size_t chunk_len = (fb->len - offset > CHUNK_SIZE) ? CHUNK_SIZE : (fb->len - offset);
             error_code = httpd_resp_send_chunk(req, (const char*)fb->buf + offset, chunk_len);
             if (error_code != ESP_OK) {
                 Serial.printf("[STREAM] Error sending chunk at offset %zu: %d\n", offset, error_code);
                 break;
             }
             offset += chunk_len;
+            // Small delay to allow other tasks to run
+            if (offset % (CHUNK_SIZE * 4) == 0) {
+                vTaskDelay(1 / portTICK_PERIOD_MS);
+            }
         }
         
         // Завершення frame
@@ -137,12 +142,14 @@ esp_err_t stream_handler(httpd_req_t *req) {
         
         // Перевірка помилки підключення
         if (error_code != ESP_OK) {
-            Serial.println("[STREAM] Connection closed or error occurred");
+            if (error_code != HTTPD_SOCK_ERR_CLOSED) {
+                Serial.printf("[STREAM] Error occurred: %d\n", error_code);
+            }
             break;
         }
         
         frame_count++;
-        vTaskDelay(5 / portTICK_PERIOD_MS);  // Small delay for other tasks
+        vTaskDelay(50 / portTICK_PERIOD_MS);  // 50ms delay to prevent VSYNC overflow
     }
     
     Serial.printf("[STREAM] Stream ended after %d frames\n", frame_count);
@@ -151,7 +158,10 @@ esp_err_t stream_handler(httpd_req_t *req) {
 
 void startWebServer() {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    config.stack_size = 4096;  // Мінімальний стек для економії пам'яті
+    config.stack_size = 4096;  // Stack size for memory efficiency
+    config.backlog_conn = 2;   // Reduce backlog to prevent socket errors
+    config.recv_wait_timeout = 5;  // Receive timeout in seconds
+    config.send_wait_timeout = 5;  // Send timeout in seconds
     
     if (httpd_start(&server, &config) == ESP_OK) {
         httpd_uri_t handlers[] = {
