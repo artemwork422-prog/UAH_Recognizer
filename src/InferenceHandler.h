@@ -52,21 +52,46 @@ bool ei_camera_capture(camera_fb_t* fb) {
     return true;
 }
 
-// Запуск інференції
+// Перевірка чи label є валідна UAH номінал
+bool isValidUAHLabel(const String& label) {
+    // Перевіряємо наявність '_UAH' у label
+    if (label.indexOf("_UAH") == -1) {
+        return false;
+    }
+    
+    // Перелік допустимих номіналів
+    const char* valid_labels[] = {
+        "5_UAH", "10_UAH", "20_UAH", "50_UAH", 
+        "100_UAH", "200_UAH", "500_UAH", "1000_UAH"
+    };
+    
+    for (int i = 0; i < 8; i++) {
+        if (label.equals(valid_labels[i])) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// Запуск інференції з обробкою labels та логуванням
 String runInference(camera_fb_t* fb) {
     if (!fb || !ei_camera_capture(fb)) {
+        Serial.println("[INFERENCE] Capture Error");
         return "Cap Error";
     }
 
-    // Підготовка сигналу для класифікатора
+    // Підготовка сигналу для класифікатора    
     ei::signal_t signal;
     signal.total_length = EI_CAMERA_RAW_FRAME_SIZE;
     signal.get_data = &ei_camera_get_data;
 
     ei_impulse_result_t result = { 0 };
     EI_IMPULSE_ERROR res = run_classifier(&signal, &result, false);
-    
+
     if (res != EI_IMPULSE_OK) {
+        Serial.print("[INFERENCE] Classifier Error: ");
+        Serial.println(res);
         return "Error: " + String(res);
     }
 
@@ -76,6 +101,13 @@ String runInference(camera_fb_t* fb) {
     // Модель використовує FOMO (об'єктна детекція)
     if (result.bounding_boxes_count > 0) {
         for (uint32_t i = 0; i < result.bounding_boxes_count; i++) {
+            Serial.print("[DETECTION] Box ");
+            Serial.print(i);
+            Serial.print(": ");
+            Serial.print(result.bounding_boxes[i].label);
+            Serial.print(" - confidence: ");
+            Serial.println(result.bounding_boxes[i].value);
+            
             if (result.bounding_boxes[i].value > best_val) {
                 best_val = result.bounding_boxes[i].value;
                 best_label = String(result.bounding_boxes[i].label);
@@ -85,9 +117,20 @@ String runInference(camera_fb_t* fb) {
 
     // Поріг довіри 50%
     if (best_val > 0.50f) {
-        return best_label + " " + String((int)(best_val * 100)) + "%";
+        // Перевіряємо чи це валідна UAH номіналу
+        if (isValidUAHLabel(best_label)) {
+            String result_str = best_label + " " + String((int)(best_val * 100)) + "%";
+            Serial.print("[RECOGNIZED] ");
+            Serial.println(result_str);
+            return result_str;
+        } else {
+            Serial.print("[UNRECOGNIZED_LABEL] ");
+            Serial.println(best_label);
+            return "Invalid: " + best_label;
+        }
     }
-    
+
+    Serial.println("[SCANNING] Confidence below threshold");
     return "Scanning...";
 }
 
