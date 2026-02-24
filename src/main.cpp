@@ -6,6 +6,7 @@
 
 String global_result = "Ready";
 volatile bool scan_request = false;
+volatile bool inference_active = false;  // Флаг для паузи стрімінгу під час AI
 int error_count = 0;
 const int MAX_ERRORS = 10;
 
@@ -101,8 +102,15 @@ void loop() {
             global_result = "Frame error";
         } else {
             Serial.println("\n[FRAME] =====================================");
+            Serial.println("[INFERENCE] Starting AI processing - pausing stream...");
+            
+            // КРИТИЧНО: Встановити флаг ДО інференції, щоб зупинити стрім
+            inference_active = true;
             
             String inference_result = runInference(fb);
+            
+            // Встановити флаг ПІСЛЯ інференції, щоб відновити стрім
+            inference_active = false;
             
             esp_camera_fb_return(fb);
             
@@ -110,8 +118,7 @@ void loop() {
             Serial.println(inference_result);
             
             global_result = inference_result;
-            error_count = 0;  // Reset error count on success
-            
+            error_count = 0;  // Reset error count on success            Serial.println("[INFERENCE] AI processing complete - resuming stream...");            
             Serial.println("[FRAME] =====================================\n");
         }
         

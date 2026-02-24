@@ -7,6 +7,7 @@
 
 extern String global_result;
 extern volatile bool scan_request;
+extern volatile bool inference_active;  // Флаг для паузи стрімінгу під час AI
 
 // Компактна HTML сторінка з потоковим відео
 static const char* index_html = R"rawtext(
@@ -88,6 +89,14 @@ esp_err_t stream_handler(httpd_req_t *req) {
     
     // Потокова передача кадрів
     while (frame_count < MAX_FRAMES) {
+        // КРИТИЧНО: Якщо працює AI інференція, приостановити стрімінг
+        // Це запобігає VSYNC overflow та socket errors
+        if (inference_active) {
+            // Чекаємо, поки AI закінчить роботу
+            vTaskDelay(100 / portTICK_PERIOD_MS);
+            continue;
+        }
+        
         camera_fb_t* fb = esp_camera_fb_get();
         if (!fb) {
             Serial.println("[STREAM] Failed to get frame");
