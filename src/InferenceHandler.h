@@ -76,9 +76,25 @@ bool isValidUAHLabel(const String& label) {
 
 // Запуск інференції з обробкою labels та логуванням
 String runInference(camera_fb_t* fb) {
-    if (!fb || !ei_camera_capture(fb)) {
-        Serial.println("[INFERENCE] Capture Error");
-        return "Cap Error";
+    if (!fb) {
+        Serial.println("[INFERENCE] ERROR: Frame buffer is NULL");
+        return "Frame NULL";
+    }
+    
+    if (fb->buf == NULL || fb->len == 0) {
+        Serial.printf("[INFERENCE] ERROR: Invalid frame - buf=%p len=%u\n", fb->buf, fb->len);
+        return "Frame Invalid";
+    }
+    
+    if (!ei_camera_capture(fb)) {
+        Serial.println("[INFERENCE] ERROR: Failed to capture frame to grayscale buffer");
+        return "Capture Failed";
+    }
+
+    // Перевірка попередньої за буфером
+    if (gray_buffer == NULL) {
+        Serial.println("[INFERENCE] ERROR: Grayscale buffer not allocated!");
+        return "Buffer Error";
     }
 
     // Підготовка сигналу для класифікатора    
@@ -87,32 +103,45 @@ String runInference(camera_fb_t* fb) {
     signal.get_data = &ei_camera_get_data;
 
     ei_impulse_result_t result = { 0 };
+    
+    uint32_t start_time = millis();
     EI_IMPULSE_ERROR res = run_classifier(&signal, &result, false);
+    uint32_t inference_time = millis() - start_time;
 
     if (res != EI_IMPULSE_OK) {
-        Serial.print("[INFERENCE] Classifier Error: ");
+        Serial.print("[INFERENCE] ERROR: Classifier failed with code: ");
         Serial.println(res);
-        return "Error: " + String(res);
+        return "Classifier Error";
     }
+    
+    Serial.printf("[INFERENCE] Completed in %lu ms\n", inference_time);
 
     float best_val = 0.0f;
     String best_label = "";
 
     // Модель використовує FOMO (об'єктна детекція)
     if (result.bounding_boxes_count > 0) {
+        Serial.printf("[INFERENCE] Found %u bounding boxes\n", result.bounding_boxes_count);
+        
         for (uint32_t i = 0; i < result.bounding_boxes_count; i++) {
-            Serial.print("[DETECTION] Box ");
-            Serial.print(i);
-            Serial.print(": ");
-            Serial.print(result.bounding_boxes[i].label);
-            Serial.print(" - confidence: ");
-            Serial.println(result.bounding_boxes[i].value);
+            if (result.bounding_boxes[i].label == NULL) {
+                Serial.printf("[DETECTION] Box %u: NULL label, confidence: %.2f\n",
+                             i, result.bounding_boxes[i].value);
+                continue;
+            }
+            
+            Serial.printf("[DETECTION] Box %u: %s (%.2f)\n",
+                         i, 
+                         result.bounding_boxes[i].label,
+                         result.bounding_boxes[i].value);
             
             if (result.bounding_boxes[i].value > best_val) {
                 best_val = result.bounding_boxes[i].value;
                 best_label = String(result.bounding_boxes[i].label);
             }
         }
+    } else {
+        Serial.println("[INFERENCE] No objects detected (empty bounding boxes)");
     }
 
     // Поріг довіри 50%
@@ -130,7 +159,7 @@ String runInference(camera_fb_t* fb) {
         }
     }
 
-    Serial.println("[SCANNING] Confidence below threshold");
+    Serial.printf("[INFERENCE] Confidence %.2f below threshold (50%%)\n", best_val);
     return "Scanning...";
 }
 

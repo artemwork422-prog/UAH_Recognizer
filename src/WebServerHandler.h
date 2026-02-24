@@ -83,43 +83,69 @@ esp_err_t stream_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "multipart/x-mixed-replace; boundary=frame");
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     
+    int frame_count = 0;
+    const int MAX_FRAMES = 600;  // Max 600 frames before restart (2 min @ 5fps)
+    
     // Потокова передача кадрів
-    while (true) {
+    while (frame_count < MAX_FRAMES) {
         camera_fb_t* fb = esp_camera_fb_get();
         if (!fb) {
             Serial.println("[STREAM] Failed to get frame");
+            vTaskDelay(10 / portTICK_PERIOD_MS);
+            continue;
+        }
+        
+        if (fb->len == 0 || fb->buf == NULL) {
+            Serial.println("[STREAM] Invalid frame data");
+            esp_camera_fb_return(fb);
             continue;
         }
         
         // MJPEG frame header
-        char frame_header[64];
+        char frame_header[96];
         size_t header_len = snprintf(frame_header, sizeof(frame_header),
             "--frame\r\nContent-Type: image/jpeg\r\nContent-Length: %zu\r\n\r\n",
             fb->len);
         
         // Надіслання header
         if (httpd_resp_send_chunk(req, frame_header, header_len) != ESP_OK) {
+            Serial.println("[STREAM] Failed to send header");
             esp_camera_fb_return(fb);
             break;
         }
         
         // Надіслання JPEG даних по чанках (економія RAM)
         size_t offset = 0;
-        while (offset < fb->len) {
+        esp_err_t error_code = ESP_OK;
+        
+        while (offset < fb->len && error_code == ESP_OK) {
             size_t chunk_len = (fb->len - offset > 4096) ? 4096 : (fb->len - offset);
-            if (httpd_resp_send_chunk(req, (const char*)fb->buf + offset, chunk_len) != ESP_OK) {
+            error_code = httpd_resp_send_chunk(req, (const char*)fb->buf + offset, chunk_len);
+            if (error_code != ESP_OK) {
+                Serial.printf("[STREAM] Error sending chunk at offset %zu: %d\n", offset, error_code);
                 break;
             }
             offset += chunk_len;
         }
         
         // Завершення frame
-        httpd_resp_send_chunk(req, "\r\n", 2);
+        if (error_code == ESP_OK) {
+            error_code = httpd_resp_send_chunk(req, "\r\n", 2);
+        }
         
         esp_camera_fb_return(fb);
-        vTaskDelay(1 / portTICK_PERIOD_MS);  // Невеликий delay для інших завдань
+        
+        // Перевірка помилки підключення
+        if (error_code != ESP_OK) {
+            Serial.println("[STREAM] Connection closed or error occurred");
+            break;
+        }
+        
+        frame_count++;
+        vTaskDelay(5 / portTICK_PERIOD_MS);  // Small delay for other tasks
     }
     
+    Serial.printf("[STREAM] Stream ended after %d frames\n", frame_count);
     return ESP_OK;
 }
 

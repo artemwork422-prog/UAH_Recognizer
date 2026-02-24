@@ -6,69 +6,123 @@
 
 String global_result = "Ready";
 volatile bool scan_request = false;
+int error_count = 0;
+const int MAX_ERRORS = 10;
 
-void setup() {
-    Serial.begin(115200);
-    delay(1000);
+void printSystemInfo() {
     Serial.println("\n========================================");
     Serial.println("    UAH Banknote Scanner v2.0");
     Serial.println("    Live Streaming + AI Recognition");
-    Serial.println("========================================\n");
+    Serial.println("========================================");
+    Serial.printf("ESP32 Chip ID: %d\n", ESP.getChipId());
+    Serial.printf("Flash Size: %d MB\n", ESP.getFlashChipSize() / 1024 / 1024);
+    Serial.printf("Free Heap: %u bytes\n", esp_get_free_heap_size());
+    Serial.printf("PSRAM Free: %u bytes\n\n", esp_get_free_psram_size());
+}
 
-    // Ініціалізація камери
-    if (!initCamera()) {
-        Serial.println("[ERROR] Camera initialization failed!");
-        while(1);
+void setup() {
+    Serial.begin(115200);
+    delay(1500);
+    
+    printSystemInfo();
+    
+    // Ініціалізація камери з перевіркою
+    Serial.println("[SETUP] Initializing camera...");
+    int camera_attempts = 0;
+    while (!initCamera() && camera_attempts < 3) {
+        camera_attempts++;
+        Serial.printf("[SETUP] Camera init attempt %d/3 failed, retrying...\n", camera_attempts);
+        delay(500);
     }
-    Serial.println("[OK] Camera initialized");
+    
+    if (camera_attempts >= 3) {
+        Serial.println("[FATAL] Camera initialization failed after 3 attempts!");
+        Serial.println("[DIAGNOSTIC] Possible causes:");
+        Serial.println("  - Camera not connected or defective");
+        Serial.println("  - GPIO pins incorrect or damaged");
+        Serial.println("  - I2C (SCCB) communication failure");
+        Serial.println("  - Camera firmware corrupted");
+        while(1) {
+            delay(1000);
+            Serial.println("[SYSTEM] Waiting for reset...");
+        }
+    }
+    Serial.println("[OK] ✓ Camera initialized");
 
     // Ініціалізація grayscale буфера
+    Serial.println("[SETUP] Allocating grayscale buffer...");
     if (!ei_camera_init()) {
-        Serial.println("[ERROR] Buffer allocation failed!");
-        while(1);
+        Serial.println("[FATAL] Failed to allocate grayscale buffer!");
+        Serial.printf("[DIAGNOSTIC] Available heap: %u bytes\n", esp_get_free_heap_size());
+        while(1) delay(1000);
     }
-    Serial.println("[OK] Grayscale buffer allocated");
+    Serial.println("[OK] ✓ Grayscale buffer allocated");
 
     // Ініціалізація класифікатора
+    Serial.println("[SETUP] Initializing classifier...");
     run_classifier_init();
-    Serial.println("[OK] Classifier initialized");
+    Serial.println("[OK] ✓ Classifier initialized");
 
-    // Ініціалізація потокового передавання (мінімальне використання памяті)
+    // Ініціалізація потокового передавання
+    Serial.println("[SETUP] Initializing stream handler...");
     if (!StreamHandler::initStream()) {
-        Serial.println("[WARNING] Stream handler init failed");
+        Serial.println("[WARNING] Stream handler initialization had issues");
     }
-    Serial.println("[OK] Stream handler initialized");
+    Serial.println("[OK] ✓ Stream handler initialized");
 
     // WiFi AP
-    WiFi.softAP("UAH_Scanner", "12345678");
-    Serial.print("[OK] WiFi AP started - IP: ");
-    Serial.println(WiFi.softAPIP());
+    Serial.println("[SETUP] Starting WiFi AP...");
+    if (!WiFi.softAP("UAH_Scanner", "12345678")) {
+        Serial.println("[ERROR] Failed to start WiFi AP!");
+    } else {
+        Serial.print("[OK] ✓ WiFi AP started - IP: ");
+        Serial.println(WiFi.softAPIP());
+    }
 
     // Веб-сервер
+    Serial.println("[SETUP] Starting web server...");
     startWebServer();
-    Serial.println("[OK] WebServer started");
+    Serial.println("[OK] ✓ WebServer started");
     
     StreamHandler::printMemoryStats();
-    Serial.println("\n[READY] System ready for scanning!");
+    Serial.println("\n[READY] ✓ System ready for scanning!");
+    Serial.println("[INFO] Connect to WiFi: 'UAH_Scanner' (no password)");
+    Serial.println("[INFO] Open browser: http://192.168.4.1\n");
 }
 
 void loop() {
     if (scan_request) {
+        scan_request = false;
+        
         camera_fb_t* fb = esp_camera_fb_get();
-        if (fb) {
-            Serial.println("\n[FRAME] Processing frame...");
-            global_result = runInference(fb);
+        if (!fb) {
+            Serial.println("[ERROR] Failed to get camera frame");
+            error_count++;
+            global_result = "Frame error";
+        } else {
+            Serial.println("\n[FRAME] =====================================");
+            
+            String inference_result = runInference(fb);
+            
             esp_camera_fb_return(fb);
             
             Serial.print("[RESULT] ");
-            Serial.println(global_result);
-        } else {
-            global_result = "Frame error";
-            Serial.println("[ERROR] Failed to get camera frame");
+            Serial.println(inference_result);
+            
+            global_result = inference_result;
+            error_count = 0;  // Reset error count on success
+            
+            Serial.println("[FRAME] =====================================\n");
         }
         
         StreamHandler::printMemoryStats();
-        scan_request = false;
+        
+        // Check for too many errors
+        if (error_count >= MAX_ERRORS) {
+            Serial.println("[CRITICAL] Too many consecutive errors!");
+            Serial.println("[SYSTEM] Recommend to restart ESP32");
+            error_count = 0;
+        }
     }
     delay(10);
 }
