@@ -1,0 +1,28 @@
+15:33:45.527 > WNLOAD_BOOT(UART0/UART1/SDIO_REI_FEO_V2))
+15:33:45.527 > waiting for download
+15:33:47.702 > ets Jul 29 2019 12:21:46
+15:33:47.706 > 
+15:33:47.706 > rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+15:33:47.711 > configsip: 0, SPIWP:0xee
+15:33:47.714 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:33:47.719 > mode:DIO, clock div:2
+15:33:47.723 > load:0x3fff0030,len:1184
+15:33:47.781 > load:0x40078000,len:13232
+15:33:48.067 > load:0x40080400,len:3028
+15:33:48.067 >   #0  0x40080400 in _init at ??:?
+15:33:48.067 > 
+15:33:48.067 > entry 0x400805e4
+15:33:48.687 > [SYSTEM] Ready at 192.168.4.1
+15:37:23.181 > ets Jul 29 2019 12:21:46
+15:37:23.181 > 
+15:37:23.181 > rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:37:23.200 > configsip: 0, SPIWP:0xee
+15:37:23.202 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:37:23.208 > mode:DIO, clock div:2
+15:37:23.211 > load:0x3fff0030,len:1184
+15:37:23.266 > load:0x40078000,len:13232
+15:37:23.537 > load:0x40080400,len:3028
+15:37:23.537 >   #0  0x40080400 in _init at ??:?
+15:37:23.537 > 
+15:37:23.537 > entry 0x400805e4
+15:37:24.177 > [SYSTEM] Ready at 192.168.4.1

@@ -1,0 +1,102 @@
+15:08:12.037 > 
+15:08:12.039 > Brownout detector was triggered
+15:08:12.039 > 
+15:08:12.039 > ets Jul 29 2019 12:21:46
+15:08:12.039 > 
+15:08:12.045 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:12.047 > configsip: 0, SPIWP:0xee
+15:08:12.049 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:12.056 > mode:DIO, clock div:2
+15:08:12.056 > load:0x3fff0030,len:1184
+15:08:13.384 > load:0x40078000,len:13232
+15:08:14.071 > load:0x40080400,len:3028
+15:08:14.071 >   #0  0x40080400 in _init at ??:?
+15:08:14.071 > 
+15:08:14.071 > entry 0x400805e4
+15:08:14.071 > 
+15:08:14.071 > Brownout detector was triggered
+15:08:14.071 > 
+15:08:14.071 > ets Jul 29 2019 12:21:46
+15:08:14.071 > 
+15:08:14.071 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:14.071 > configsip: 0, SPIWP:0xee
+15:08:14.071 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:14.071 > mode:DIO, clock div:2
+15:08:14.071 > load:0x3fff0030,len:1184
+15:08:14.071 > load:0x40078000,len:13232
+15:08:14.071 > load:0x40080400,len:3028
+15:08:14.071 >   #0  0x40080400 in _init at ??:?
+15:08:14.071 > 
+15:08:14.071 > entry 0x400805e4
+15:08:14.073 > 
+15:08:14.073 > [SYSTEM] Ready for Scan!
+15:08:14.073 > [MEM] Free Heap: 187716 bytes
+15:08:14.073 > 
+15:08:14.073 > Brownout detector was triggered
+15:08:14.073 > 
+15:08:14.073 > ets Jul 29 2019 12:21:46
+15:08:14.073 > 
+15:08:14.073 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:14.078 > configsip: 0, SPIWP:0xee
+15:08:14.080 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:14.085 > mode:DIO, clock div:2
+15:08:14.085 > load:0x3fff0030,len:1184
+15:08:14.138 > load:0x40078000,len:13232
+15:08:14.454 > load:0x40080400,len:3028
+15:08:14.454 >   #0  0x40080400 in _init at ??:?
+15:08:14.454 > 
+15:08:14.454 > entry 0x400805e4
+15:08:15.049 > 
+15:08:15.049 > [SYSTEM] Ready for Scan!
+15:08:15.049 > [MEM] Free Heap: 187720 bytes
+15:08:16.069 > 
+15:08:16.069 > Brownout detector was triggered
+15:08:16.075 > 
+15:08:16.075 > ets Jul 29 2019 12:21:46
+15:08:16.075 > 
+15:08:16.075 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:16.081 > configsip: 0, SPIWP:0xee
+15:08:16.083 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:16.088 > mode:DIO, clock div:2
+15:08:16.092 > load:0x3fff0030,len:1184
+15:08:16.180 > load:0x40078000,len:13232
+15:08:16.488 > load:0x40080400,len:3028
+15:08:16.488 >   #0  0x40080400 in _init at ??:?
+15:08:16.488 > 
+15:08:16.488 > entry 0x400805e4
+15:08:17.016 > 
+15:08:17.016 > Brownout detector was triggered
+15:08:17.016 > 
+15:08:17.016 > ets Jul 29 2019 12:21:46
+15:08:17.016 > 
+15:08:17.016 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:17.025 > configsip: 0, SPIWP:0xee
+15:08:17.027 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:17.033 > mode:DIO, clock div:2
+15:08:17.035 > load:0x3fff0030,len:1184
+15:08:17.087 > load:0x40078000,len:13232
+15:08:17.404 > load:0x40080400,len:3028
+15:08:17.404 >   #0  0x40080400 in _init at ??:?
+15:08:17.404 > 
+15:08:17.404 > entry 0x400805e4
+15:08:18.000 > 
+15:08:18.000 > [SYSTEM] Ready for Scan!
+15:08:18.000 > [MEM] Free Heap: 187716 bytes
+15:08:18.097 > 
+15:08:18.097 > Brownout detector was triggered
+15:08:18.103 > 
+15:08:18.103 > ets Jul 29 2019 12:21:46
+15:08:18.103 > 
+15:08:18.103 > rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+15:08:18.103 > configsip: 0, SPIWP:0xee
+15:08:18.112 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+15:08:18.112 > mode:DIO, clock div:2
+15:08:18.112 > load:0x3fff0030,len:1184
+15:08:18.172 > load:0x40078000,len:13232
+15:08:18.612 > load:0x40080400,len:3028
+15:08:18.612 >   #0  0x40080400 in _init at ??:?
+15:08:18.612 > 
+15:08:18.612 > entry 0x400805e4
+15:08:19.077 > 
+15:08:19.077 > [SYSTEM] Ready for Scan!
+15:08:19.077 > [MEM] Free Heap: 187716 bytes

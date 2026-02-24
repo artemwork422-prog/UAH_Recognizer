@@ -1,0 +1,23 @@
+18:51:57.343 > ets Jul 29 2019 12:21:46
+18:51:57.343 > 
+18:51:57.343 > rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+18:51:57.348 > configsip: 0, SPIWP:0xee
+18:51:57.352 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+18:51:57.359 > mode:DIO, clock div:2
+18:51:57.361 > load:0x3fff0030,len:1184
+18:51:57.434 > load:0x40078000,len:13232
+18:51:57.792 > load:0x40080400,len:3028
+18:51:57.792 >   #0  0x40080400 in _init at ??:?
+18:51:57.792 > 
+18:51:57.792 > entry 0x400805e4
+18:51:58.321 > 
+18:51:58.321 > --- SYSTEM READY ---
+18:51:58.321 > IP Address: 192.168.4.1
+18:53:23.320 > E (85541) httpd_txrx: httpd_resp_send_err: error calling setsockopt : 22
+18:53:23.320 > 
+18:53:23.320 > [SYSTEM] >>> SCAN COMMAND RECEIVED <<<
+18:53:23.392 > [AI] Captured frame: 3912 bytes. Processing 96x96...
+18:53:24.354 > --- AI RAW OUTPUT ---
+18:53:24.354 > No objects found even with low threshold.
+18:53:24.359 > ---------------------
+18:53:24.359 > [AI] Result: No detection

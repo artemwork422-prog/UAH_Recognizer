@@ -1,0 +1,15 @@
+18:54:16.721 > ets Jul 29 2019 12:21:46
+18:54:16.721 > 
+18:54:16.721 > rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+18:54:16.728 > configsip: 0, SPIWP:0xee
+18:54:16.730 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+18:54:16.735 > mode:DIO, clock div:2
+18:54:16.739 > load:0x3fff0030,len:1184
+18:54:17.645 > load:0x40078000,len:13232
+18:54:17.953 > load:0x40080400,len:3028
+18:54:17.953 >   #0  0x40080400 in _init at ??:?
+18:54:17.953 > 
+18:54:17.953 > entry 0x400805e4
+18:54:17.953 > 
+18:54:17.953 > --- SYSTEM READY ---
+18:54:17.953 > IP Address: 192.168.4.1

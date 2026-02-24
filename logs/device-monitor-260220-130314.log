@@ -1,0 +1,132 @@
+13:03:44.906 > _FEO_V2))
+13:03:44.906 > waiting for download
+13:03:44.906 > ets Jul 29 2019 12:21:46
+13:03:44.906 > 
+13:03:44.906 > rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+13:03:44.906 > configsip: 0, SPIWP:0xee
+13:03:44.906 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+13:03:44.906 > mode:DIO, clock div:2
+13:03:44.906 > load:0x3fff0030,len:1184
+13:03:44.906 > load:0x40078000,len:13232
+13:03:44.906 > load:0x40080400,len:3028
+13:03:44.906 >   #0  0x40080400 in _init at ??:?
+13:03:44.906 > 
+13:03:44.906 > entry 0x400805e4
+13:03:44.906 > 
+13:03:44.906 > 
+13:03:44.906 > === UAH BANKNOTE SCANNER ===
+13:03:44.906 > [INIT] Starting initialization...
+13:03:44.906 > [INIT] Camera initialized OK
+13:03:44.906 > [INIT] WiFi AP: UAH_Scanner (192.168.4.1:80)
+13:03:44.906 > [INIT] Web Server started
+13:03:44.906 > [INIT] Free PSRAM: 2079727 bytes, Free RAM: 187624 bytes
+13:03:44.906 > 
+13:03:44.906 > [SYSTEM] *** READY - AI Recognition: ON-DEMAND ***
+13:03:44.906 > [SYSTEM] Open: http://192.168.4.1
+13:03:44.906 > [SYSTEM] Press SCAN BANKNOTE button in web interface
+13:03:44.906 > 
+13:03:44.906 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 187436 bytes
+13:03:44.906 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 187436 bytes
+13:03:46.356 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 187436 bytes
+13:03:56.366 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 187436 bytes
+13:04:06.365 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 185148 bytes
+13:04:16.365 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 180300 bytes
+13:04:26.375 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 179012 bytes
+13:04:36.381 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 174744 bytes
+13:04:46.381 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 167784 bytes
+13:04:56.385 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 181084 bytes
+13:05:06.391 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 181084 bytes
+13:05:16.390 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 169864 bytes
+13:05:26.395 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 170560 bytes
+13:05:36.401 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 179288 bytes
+13:05:46.404 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 170744 bytes
+13:05:56.404 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177908 bytes
+13:06:06.414 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:06:16.414 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:06:26.423 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 174444 bytes
+13:06:36.424 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 178984 bytes
+13:06:46.430 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:06:56.436 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 181084 bytes
+13:07:06.438 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 179288 bytes
+13:07:16.445 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:07:26.449 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:07:36.455 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177908 bytes
+13:07:46.460 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:07:56.462 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 172536 bytes
+13:08:06.462 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177884 bytes
+13:08:16.472 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:08:26.478 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177916 bytes
+13:08:36.481 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 177620 bytes
+13:08:46.486 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 179500 bytes
+13:08:56.491 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 181084 bytes
+13:09:06.495 > [MEM] Free PSRAM: 2079727 bytes, Free RAM: 181084 bytes
+13:09:10.417 > [WEB] Scan request received. Triggering AI in loop...
+13:09:10.423 > [AI] Scan request received, processing...
+13:09:10.429 > [AI] Camera frame captured, running inference...
+13:09:10.432 > [AI] Snapshot buffer allocated: 230400 bytes (PSRAM used)\n[AI] Resizing from 320x240 to 64x64\n[AI] Running classifier...
+13:09:11.285 > [AI] No bounding boxes detected
+13:09:11.289 > >>> SCAN RESULT: No detection
+13:09:16.497 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183348 bytes
+13:09:26.501 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183348 bytes
+13:09:36.501 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183348 bytes
+13:09:46.511 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 173788 bytes
+13:09:56.514 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:10:06.518 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183348 bytes
+13:10:16.518 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:10:26.528 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:10:36.530 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 173168 bytes
+13:10:46.538 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:10:56.538 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:11:06.547 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180180 bytes
+13:11:16.550 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:11:26.553 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:11:36.560 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:11:46.565 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:11:56.569 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:12:06.574 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:12:16.579 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:12:26.584 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 178204 bytes
+13:12:36.588 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:12:46.592 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:12:56.597 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:13:06.601 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 181780 bytes
+13:13:16.601 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 175336 bytes
+13:13:26.606 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:13:36.610 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:13:46.615 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183572 bytes
+13:13:56.619 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 174012 bytes
+13:14:06.623 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 180404 bytes
+13:14:16.629 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183444 bytes
+13:14:26.629 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183444 bytes
+13:14:36.635 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183444 bytes
+13:14:46.637 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:14:56.643 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:06.647 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:16.652 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:26.657 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:36.660 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:46.665 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:15:56.664 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:06.675 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:16.679 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:26.681 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:36.682 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:46.691 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:16:56.698 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:06.700 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:16.706 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:26.708 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:36.712 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:46.717 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:17:56.723 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:06.727 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:16.730 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:26.739 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:36.743 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:46.747 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:18:56.749 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:19:06.756 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:19:16.760 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:19:26.766 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:19:36.771 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes
+13:19:46.769 > [MEM] Free PSRAM: 1849311 bytes, Free RAM: 183908 bytes

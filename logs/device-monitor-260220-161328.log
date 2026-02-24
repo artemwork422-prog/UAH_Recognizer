@@ -1,0 +1,15 @@
+16:16:15.804 > ets Jul 29 2019 12:21:46
+16:16:15.804 > 
+16:16:15.804 > rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+16:16:15.818 > configsip: 0, SPIWP:0xee
+16:16:16.352 > clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+16:16:16.352 > mode:DIO, clock div:2
+16:16:16.352 > load:0x3fff0030,len:1184
+16:16:16.352 > load:0x40078000,len:13232
+16:16:16.352 > load:0x40080400,len:3028
+16:16:16.352 >   #0  0x40080400 in _init at ??:?
+16:16:16.352 > 
+16:16:16.352 > entry 0x400805e4
+16:16:16.801 > 
+16:16:16.801 > --- SYSTEM READY ---
+16:16:16.801 > IP Address: 192.168.4.1
