@@ -97,8 +97,7 @@ bool initCamera() {
     // Get sensor info after successful init
     sensor_t *s = esp_camera_sensor_get();
     if (s != NULL) {
-        Serial.printf("[CAMERA] Sensor model: PID=0x%x VER=0x%x\n", 
-                     s->id.pid, s->id.ver);
+        Serial.printf("[CAMERA] Sensor model initialized\n");
         Serial.println("[CAMERA] Sensor initialized successfully!");
         
         // Optional sensor settings

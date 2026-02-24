@@ -9,7 +9,7 @@
 class StreamHandler {
 private:
     static const uint16_t STREAM_CHUNK_SIZE = 2048;  // 2KB chunks (reduced from 4KB)
-    static const uint16_t MAX_FRAME_SIZE = 65536;    // Максимальний розмір кадру
+    static const uint32_t MAX_FRAME_SIZE = 65536;    // Максимальний розмір кадру
     
 public:
     // Ініціалізація потокового відео

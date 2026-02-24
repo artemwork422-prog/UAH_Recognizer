@@ -14,10 +14,10 @@ void printSystemInfo() {
     Serial.println("    UAH Banknote Scanner v2.0");
     Serial.println("    Live Streaming + AI Recognition");
     Serial.println("========================================");
-    Serial.printf("ESP32 Chip ID: %d\n", ESP.getChipId());
+    Serial.printf("ESP32 Chip Model: %d\n", ESP.getChipModel());
     Serial.printf("Flash Size: %d MB\n", ESP.getFlashChipSize() / 1024 / 1024);
     Serial.printf("Free Heap: %u bytes\n", esp_get_free_heap_size());
-    Serial.printf("PSRAM Free: %u bytes\n\n", esp_get_free_psram_size());
+    Serial.printf("PSRAM Size: %u bytes\n\n", ESP.getPsramSize());
 }
 
 void setup() {

@@ -142,9 +142,7 @@ esp_err_t stream_handler(httpd_req_t *req) {
         
         // Перевірка помилки підключення
         if (error_code != ESP_OK) {
-            if (error_code != HTTPD_SOCK_ERR_CLOSED) {
-                Serial.printf("[STREAM] Error occurred: %d\n", error_code);
-            }
+            Serial.printf("[STREAM] Error occurred: %d\n", error_code);
             break;
         }
         
