@@ -1,24 +1,23 @@
 #include <Arduino.h>
 #include "CameraHandler.h"
-#include "WebServerHandler.h"
 #include "InferenceHandler.h"
-#include "StreamHandler.h"
 
 String global_result = "Ready";
-volatile bool scan_request = false;
-volatile bool inference_active = false;  // Флаг для паузи стрімінгу під час AI
 int error_count = 0;
 const int MAX_ERRORS = 10;
+const int CAPTURE_INTERVAL_MS = 3000;  // Capture every 3 seconds
+unsigned long last_capture_time = 0;
 
 void printSystemInfo() {
     Serial.println("\n========================================");
     Serial.println("    UAH Banknote Scanner v2.0");
-    Serial.println("    Live Streaming + AI Recognition");
+    Serial.println("    Automatic AI Recognition (No WiFi)");
     Serial.println("========================================");
     Serial.printf("ESP32 Chip Model: %d\n", ESP.getChipModel());
     Serial.printf("Flash Size: %d MB\n", ESP.getFlashChipSize() / 1024 / 1024);
     Serial.printf("Free Heap: %u bytes\n", esp_get_free_heap_size());
-    Serial.printf("PSRAM Size: %u bytes\n\n", ESP.getPsramSize());
+    Serial.printf("PSRAM Size: %u bytes\n", ESP.getPsramSize());
+    Serial.printf("Capture Interval: %d ms\n\n", CAPTURE_INTERVAL_MS);
 }
 
 void setup() {
@@ -63,37 +62,20 @@ void setup() {
     Serial.println("[SETUP] Initializing classifier...");
     run_classifier_init();
     Serial.println("[OK] ✓ Classifier initialized");
-
-    // Ініціалізація потокового передавання
-    Serial.println("[SETUP] Initializing stream handler...");
-    if (!StreamHandler::initStream()) {
-        Serial.println("[WARNING] Stream handler initialization had issues");
-    }
-    Serial.println("[OK] ✓ Stream handler initialized");
-
-    // WiFi AP
-    Serial.println("[SETUP] Starting WiFi AP...");
-    if (!WiFi.softAP("UAH_Scanner", "12345678")) {
-        Serial.println("[ERROR] Failed to start WiFi AP!");
-    } else {
-        Serial.print("[OK] ✓ WiFi AP started - IP: ");
-        Serial.println(WiFi.softAPIP());
-    }
-
-    // Веб-сервер
-    Serial.println("[SETUP] Starting web server...");
-    startWebServer();
-    Serial.println("[OK] ✓ WebServer started");
     
-    StreamHandler::printMemoryStats();
-    Serial.println("\n[READY] ✓ System ready for scanning!");
-    Serial.println("[INFO] Connect to WiFi: 'UAH_Scanner' (no password)");
-    Serial.println("[INFO] Open browser: http://192.168.4.1\n");
+    Serial.println("\n[READY] ✓ System ready!");
+    Serial.println("[INFO] Automatic scanning enabled - camera captures every %d ms", CAPTURE_INTERVAL_MS);
+    Serial.println("[INFO] Results output to Serial Monitor only\n");
+    
+    last_capture_time = millis();
 }
 
 void loop() {
-    if (scan_request) {
-        scan_request = false;
+    unsigned long current_time = millis();
+    
+    // Automatic capture every CAPTURE_INTERVAL_MS
+    if (current_time - last_capture_time >= CAPTURE_INTERVAL_MS) {
+        last_capture_time = current_time;
         
         camera_fb_t* fb = esp_camera_fb_get();
         if (!fb) {
@@ -102,15 +84,10 @@ void loop() {
             global_result = "Frame error";
         } else {
             Serial.println("\n[FRAME] =====================================");
-            Serial.println("[INFERENCE] Starting AI processing - pausing stream...");
-            
-            // КРИТИЧНО: Встановити флаг ДО інференції, щоб зупинити стрім
-            inference_active = true;
+            Serial.println("[INFERENCE] Starting AI processing...");
+            Serial.printf("[TIME] Captured at: %lu ms\n", current_time);
             
             String inference_result = runInference(fb);
-            
-            // Встановити флаг ПІСЛЯ інференції, щоб відновити стрім
-            inference_active = false;
             
             esp_camera_fb_return(fb);
             
@@ -118,11 +95,10 @@ void loop() {
             Serial.println(inference_result);
             
             global_result = inference_result;
-            error_count = 0;  // Reset error count on success            Serial.println("[INFERENCE] AI processing complete - resuming stream...");            
+            error_count = 0;  // Reset error count on success
+            Serial.println("[INFO] Free Heap: %u bytes", esp_get_free_heap_size());
             Serial.println("[FRAME] =====================================\n");
         }
-        
-        StreamHandler::printMemoryStats();
         
         // Check for too many errors
         if (error_count >= MAX_ERRORS) {
@@ -131,5 +107,6 @@ void loop() {
             error_count = 0;
         }
     }
-    delay(10);
+    
+    delay(100);  // Small delay to prevent watchdog issues
 }
